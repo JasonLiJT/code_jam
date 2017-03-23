@@ -10,10 +10,7 @@ struct Matrix {
     int fives;
 } mat[1000][1000];
 
-bool has_zero = false;
-int zero_x = 0, zero_y = 0;
-
-void read(int n, Matrix mat[][1000]) {
+void read(int n, Matrix mat[][1000], bool &has_zero, int &zero_x, int &zero_y) {
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             int num, twos = 0, fives = 0;
@@ -55,8 +52,22 @@ int main() {
     int n;
     cin >> n; // [2, 1000]
 
+    bool has_zero = false;
+    int zero_x = 0, zero_y = 0;
     int i=0, j=0;
-    read(n, mat);
+    bool* directions = new bool[n];
+    read(n, mat, has_zero, zero_x, zero_y);
+
+    if (has_zero) {
+        for (int i = 0; i < zero_x; ++i)
+            cout << 'D';
+        for (int i = 0; i < n; ++i)
+            cout << 'R';
+        for (int i = 0; i < n - zero_x; ++i)
+            cout << 'D';
+    }
+
     show(n, mat);
+
 
 }
