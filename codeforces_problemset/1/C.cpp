@@ -45,7 +45,7 @@ int main() {
 			R = s1 * 0.5 / sin(ang1);
 
 	// find N
-	int N, correct_N;
+	int N;
 	for (N = 3; N < 101; ++N) {
 		if (fdivisible(ang1, PI / N) && fdivisible(ang2, PI / N) && fdivisible(ang3, PI / N)) {
 			// N found
