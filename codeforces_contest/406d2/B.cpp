@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdlib>
 
 using namespace std;
 #define endl '\n'
@@ -9,28 +8,31 @@ int main() {
     cin.tie(NULL);
 
     bool cancel = true;
-    int n, m, group[10000], occupied[10000] = {0};
+    int n, m, group[10000] = {0};
+    bool occupied[20000 + 1] = {false};
     cin >> n >> m;
-    int group_members = 0;
+    int g = 0;
 
-    for (int i = 0; i < m && !cancel; ++i) {
-        cin >> group[0];
-        for (int k = 0; k < group_members; ++k)
-        {
-            occupied[k] = 0;
+    for (int i = 0; i < m; ++i) {
+        cancel = true;
+        for (int x = 0; x < 20000 + 1; ++x) {
+            occupied[x] = 0;
         }
-        group_members = 0;
-        while (cin.get() == ' ') {
-            ++group_members;
-            cin >> group[group_members];
-            ++occupied[abs(group[group_members])];
+        g = 0;
+        int k;
+        cin >> k;
+        for (g = 0; g < k; ++g) {
+            cin >> group[g];
+            occupied[10000 + (group[g])] = true;
         }
-        for (int j = 0; j < group_members; ++j) {
-            if (occupied[abs(group[j])] == 2) {
+
+        for (int j = 0; j < g; ++j) {
+            if (occupied[10000 + (group[j])] && occupied[10000 - (group[j])]) {
                 cancel = false;
                 break;
             }
         }
+        if (cancel) break;
     }
     if (cancel){
         cout << "YES\n";
