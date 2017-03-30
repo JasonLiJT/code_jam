@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 
+#define DEBUG
 #define endl '\n'
 
 using namespace std;
@@ -59,6 +60,20 @@ int main() {
     }
     s = s.substr(skip0);
 
+
+#ifdef DEBUG
+    cout << "remainder = " << remainder << endl;
+    cout << "v_ones.size() = " << v_ones.size() << endl;
+    for (std::vector<int>::iterator i = v_ones.begin(); i != v_ones.end(); ++i) {
+        cout << *i << ' ';
+    }
+    cout << "\nv_twos.size() = " << v_twos.size() << endl;
+    for (std::vector<int>::iterator i = v_twos.begin(); i != v_twos.end(); ++i) {
+        cout << *i << ' ';
+    }
+    cout << endl << endl;
+
+#endif
     if (s.length() == 0) cout << -1 << endl;
     else cout << s << endl;
 
