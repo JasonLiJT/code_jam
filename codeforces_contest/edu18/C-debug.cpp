@@ -7,6 +7,15 @@
 
 using namespace std;
 
+string clip(string s) {
+    int skip0 = 0;
+    for (int i = 0; i < s.length() - 1; ++i) {
+        if (s[i] != '0') break;
+        skip0++;
+    }
+    return s.substr(skip0);
+}
+
 int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
@@ -27,39 +36,31 @@ int main() {
         return 0;
     } else if (remainder == 1) {
         if (v_ones.size() > 0 && v_twos.size() < 2) {
-            s = s.substr(0, v_ones[0]) + s.substr(v_ones[0] + 1);
+            s = clip(s.substr(0, v_ones[0]) + s.substr(v_ones[0] + 1));
         } else if (v_ones.size() < 1 && v_twos.size() > 1) {
-            s = s.substr(0, v_twos[1]) + s.substr(v_twos[1] + 1, v_twos[0] - v_twos[1] - 1)
-                + s.substr(v_twos[0] + 1);
+            s = clip(s.substr(0, v_twos[1]) + s.substr(v_twos[1] + 1, v_twos[0] - v_twos[1] - 1)
+                + s.substr(v_twos[0] + 1));
         } else if (v_ones.size() > 0 && v_twos.size() > 1) {
             string s1, s2;
-            s1 = s.substr(0, v_ones[0]) + s.substr(v_ones[0] + 1);
-            s2 = s.substr(0, v_twos[1]) + s.substr(v_twos[1] + 1, v_twos[0] - v_twos[1] - 1)
-                + s.substr(v_twos[0] + 1);
+            s1 = clip(s.substr(0, v_ones[0]) + s.substr(v_ones[0] + 1));
+            s2 = clip(s.substr(0, v_twos[1]) + s.substr(v_twos[1] + 1, v_twos[0] - v_twos[1] - 1)
+                + s.substr(v_twos[0] + 1));
             s = (s1.length() > s2.length()) ? s1 : s2;
         }
     } else if (remainder == 2) {
         if (v_twos.size() > 0 && v_ones.size() < 2) {
-            s = s.substr(0, v_twos[0]) + s.substr(v_twos[0] + 1);
+            s = clip(s.substr(0, v_twos[0]) + s.substr(v_twos[0] + 1));
         } else if (v_twos.size() < 1 && v_ones.size() > 1) {
-            s = s.substr(0, v_ones[1]) + s.substr(v_ones[1] + 1, v_ones[0] - v_ones[1] - 1)
-                + s.substr(v_ones[0] + 1);
+            s = clip(s.substr(0, v_ones[1]) + s.substr(v_ones[1] + 1, v_ones[0] - v_ones[1] - 1)
+                            + s.substr(v_ones[0] + 1));
         } else if (v_twos.size() > 0 && v_ones.size() > 1) {
             string s1, s2;
-            s1 = s.substr(0, v_twos[0]) + s.substr(v_twos[0] + 1);
-            s2 = s.substr(0, v_ones[1]) + s.substr(v_ones[1] + 1, v_ones[0] - v_ones[1] - 1)
-                + s.substr(v_ones[0] + 1);
+            s1 = clip(s.substr(0, v_twos[0]) + s.substr(v_twos[0] + 1));
+            s2 = clip(s.substr(0, v_ones[1]) + s.substr(v_ones[1] + 1, v_ones[0] - v_ones[1] - 1)
+                + s.substr(v_ones[0] + 1));
             s = (s1.length() > s2.length()) ? s1 : s2;
         }
     }
-
-    int skip0 = 0;
-    for (int i = 0; i < s.length() - 1; ++i) {
-        if (s[i] != '0') break;
-        skip0++;
-    }
-    s = s.substr(skip0);
-
 
 #ifdef DEBUG
     cout << "remainder = " << remainder << endl;
