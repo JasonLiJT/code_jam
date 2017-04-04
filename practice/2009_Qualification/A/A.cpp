@@ -18,35 +18,21 @@ int main() {
 		cin >> s;
 		dict.insert(s);
 	}
-	// cout << "Dictionary read.\n";
-	// for (std::set<string>::iterator i = dict.begin(); i != dict.end(); ++i)
-	// {
-	// 	cout << *i << endl;
-	// }
-	// cout << "Dictionary printed.\n";
 	for (int X = 1; X < N + 1; ++X) {
 		int K = 0;
-		string line = "", r = "";
+		string line = "";
 		cin >> line;
-		// cout << "Line read: " << line << endl;
 		for (int i = 0; i < L; ++i) {
-			if (line[0] == '(') {
-				int right = line.find(')');
-				r += '[' + line.substr(1, right - 1) + ']';
-				line = line.substr(right + 1);
-			} else {
-				r += "[" + line.substr(0, 1) + "]";
-				line = line.substr(1);
+			int pos = line.find("(");
+			if (pos != -1) {
+				line[pos] = '[';
+				line[line.find(")")] = ']';
 			}
 		}
-		// cout << "r = " << r << endl;
-
-		regex e(r);
+		regex e(line);
 		for (std::set<string>::iterator i = dict.begin(); i != dict.end(); ++i) {
 			K += (regex_match(*i, e));
 		}
-
 		cout << "Case #" << X << ": " << K << endl;
 	}
-
 }
