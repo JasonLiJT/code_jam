@@ -106,13 +106,11 @@ class AB {
 
 int main() {
 	AB test;
-	int a = 50, b = 600;
-	cin >> a >> b;
-	cout << "output:\n" << test.createString(a, b) << endl;
+	int a = 24, b = 160;
+	// cin >> a >> b;
+	// cout << "output:\n" << test.createString(a, b) << endl;
 	cout << "Searching for valid K from 0 to b\n";
 	for (int i = 0; i <= b; ++i) {
-		if (!test.createString(a, i).empty()) {
-			cout << i << ' ';
-		}
+		cout << i << '\t' << test.createString(a, i) << endl;
 	}
 }
