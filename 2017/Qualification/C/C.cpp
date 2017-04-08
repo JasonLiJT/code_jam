@@ -1,6 +1,5 @@
 #include <iostream>
 #include <algorithm>
-#include <deque>
 
 using namespace std;
 #define endl '\n'
@@ -12,34 +11,61 @@ int main() {
     int T;
     cin >> T;
     for (int i = 0; i < T; ++i) {
-        long long N, K;
-        deque<long long> vacancies;
+        long long N, K, a, b, la, lb, last;
         cin >> N >> K;
-        vacancies.push_back(N);
-        K--;
-        while (K--){
-            long long len = vacancies.size(), last = vacancies[len - 1];
-            if (last == 1) {
-                vacancies.pop_back();
-            } else if (last == 2) {
-                vacancies.pop_back();
-                vacancies.push_front(1);
-            }else {
-                long long a = (last - 1) / 2, b = last - 1 - a;
-                vacancies.pop_back();
-                vacancies.push_front(b);
-                vacancies.push_front(a);
-            }
-            if (last % 2 == 0 && vacancies[len - 2] % 2 == 1) {
-                // clog << endl << "SORTTTTTTTT" << endl;
-                sort(vacancies.begin(), vacancies.end());
-            }
-            // for (std::deque<long long>::iterator ll = vacancies.begin(); ll != vacancies.end(); ++ll) {
-            //     clog << *ll << " ";
-            // } clog << endl;
+        b = (N - 1) / 2;
+        a = N - 1 - b;
+        if (a == b) {
+            la = 2;
+            lb = 0;
+        } else {
+            la = 1;
+            lb = 1;
         }
-        long long last = vacancies.back();
-        long long a = (last - 1) / 2, b = last - 1 - a;
+        K--;
+        last = N;
+        while (K > 0) {
+            // clog << "K = " << K << ", a = " << a << ", b = " << b
+            //     << ", la = " << la << ", lb = " << lb << endl;
+            if (1 <= K && K <= la) {
+                last = a;
+                break;
+            } else {
+                K -= la;
+                if (1 <= K && K <= lb) {
+                    last = b;
+                    break;
+                } else {
+                    K -= lb;
+                }
+            }
+            // Next layer
+            if (lb == 0) {
+                if (a % 2 == 1) {
+                    a = (a - 1) / 2;
+                    b = a;
+                    la *= 2;
+                } else {
+                    a /= 2;
+                    b = a - 1;
+                    lb = la;
+                }
+            } else if (a % 2 == 0 && b % 2 == 1) {
+                a /= 2;
+                b = a - 1;
+                lb = la + 2 * lb;
+            } else if (a % 2 == 1 && b % 2 == 0) {
+                a = b / 2;
+                b = a - 1;
+                la = lb + 2 * la;
+            } else {
+                clog << "ERR!\na = " << a << "\nb = " << b
+                << "\nla = " << la << "\nlb = " << lb << endl;
+            }
+        }
+        // clog << "K = " << K << ", a = " << a << ", b = " << b
+        //         << ", la = " << la << ", lb = " << lb << endl;
+        a = (last - 1) / 2, b = last - 1 - a;
         cout << "Case #" << i + 1 << ": " << b << " " << a << endl;
     }
 }
