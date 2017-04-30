@@ -7,8 +7,8 @@ using namespace std;
 const double PI = acos(-1);
 
 struct cake {
-    int R;
-    int H;
+    long long R;
+    long long H;
     long long product;
     void cal_product() {
         product = 1LL * R * H;
@@ -55,25 +55,23 @@ int main() {
         }
         if (max_R_index != max_R_all_index) {
             int del_index = K - 1;
+            // clog << "del_index = " << del_index << endl;
             for (int i = K; i < N; ++i) {
                 double diff = 0;
-                if (pancakes[i].R > pancakes[max_R_index].R || del_index == max_R_index) {
+                if (pancakes[i].R > pancakes[max_R_index].R) {
                     diff = PI * (pancakes[i].R * pancakes[i].R + 2 * pancakes[i].product
                                 -pancakes[max_R_index].R * pancakes[max_R_index].R - 2 * pancakes[del_index].product);
-                } else {
-                    diff = PI * (2 * pancakes[i].product - 2 * pancakes[del_index].product);
+                    // clog << "diff " << i << ": " << diff << endl;
                 }
-                
+
                 if (diff > 0) {
+                    // clog << "swap " << i << ", " << del_index << endl;
                     ans += diff;
                     swap(pancakes[i], pancakes[del_index]);
-                    del_index = min_element(pancakes.begin(), pancakes.begin() + K, comp_product) - pancakes.begin();
-                    max_R_index = (max_element(pancakes.begin(), pancakes.begin() + K, comp_R) - pancakes.begin());        
+                    max_R_index = K - 1;        
                 }
             }
         }
-        
-
         cout << "Case #" << test_case << ": " << ans << endl;
         
     }

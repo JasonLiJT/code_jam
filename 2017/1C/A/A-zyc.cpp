@@ -22,8 +22,6 @@ const double pi = 3.1415926535897932384626;
 
 int main()
 {
-	freopen("A.in", "r", stdin);
-	freopen("A.out", "w", stdout);
 
 	int T;
 	scanf("%d", &T);
@@ -59,7 +57,7 @@ int main()
 			if (cnt == K - 1 && max_ans < cur_ans)
 				max_ans = cur_ans;
 		}
-		printf("%.8f\n", max_ans);
+		printf("%.6f\n", max_ans);
 	}
 
 	return 0;
