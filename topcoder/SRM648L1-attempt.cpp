@@ -55,7 +55,12 @@ class AB {
 } test;
 
 int main() {
-	int a, b;
-	cin >> a >> b;
-	cout << b << ' ' << test.createString(a, b) << endl;
+	AB test;
+	int a = 24, b = 160;
+	// cin >> a >> b;
+	// cout << "output:\n" << test.createString(a, b) << endl;
+	cout << "Searching for valid K from 0 to b\n";
+	for (int i = 0; i <= b; ++i) {
+		cout << i << '\t' << test.createString(a, i) << endl;
+	}
 }

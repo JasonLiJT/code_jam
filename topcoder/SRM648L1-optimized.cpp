@@ -60,10 +60,11 @@ class AB {
 			std::vector<char> vab(N, 'B');
 			bool found = false;
 			for (int i = 1; i < N/2+1; ++i) {
+				/////////////////
+				vab[i-1] = 'A';// Must be put before 'continue'
 				////////////////////////////////////
 				if (i * (N-i) < K) continue;////////
-				////////////////////////////////////
-				vab[i-1] = 'A';
+				////////////////////////////////////				
 				// cout << "i = " << i << endl;
 				do{
 					if (K == count_AB_pairs(vab)) {
@@ -86,11 +87,8 @@ class AB {
 
 		int count_AB_pairs(const std::vector<char>& vab) {
 			int sum = 0;
-			bool skip = true;
 			int count_A = 0;
-			for (std::vector<char>::const_iterator c = vab.begin(); c != vab.end(); ++c) {
-				if (skip && *c == 'B') continue;
-				else skip = false;
+			for (std::vector<char>::const_iterator c = find(vab.begin(), vab.end(),'A'); c != vab.end(); ++c) {
 				if (*c == 'A') {
 					count_A++;
 				}
@@ -104,7 +102,7 @@ class AB {
 
 int main() {
 	AB test;
-	int a = 24, b = 160;
+	int a = 100, b = 4000;
 	// cin >> a >> b;
 	// cout << "output:\n" << test.createString(a, b) << endl;
 	cout << "Searching for valid K from 0 to b\n";

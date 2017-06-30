@@ -29,49 +29,53 @@ int main() {
         sort(vj.begin(), vj.end(), comp_first);
         int changes = 0;
         char prev = 'j';
-        if (vc.size() + vj.size() == 1) {
-            changes += 2;
-        } else if (vc.size() + vj.size () == 2) {
-            if (vc.size() == 2) {
-                if (vc[1].second - vc[0].first <= 12 * 60 || vc[1].first - vc[0].second >= 12*60) {
-                    changes += 2;
-                } else {
-                    changes += 4;
-                }
-            } else if (vj.size() == 2) {
-                if (vj[1].second - vj[0].first <= 12 * 60 || vj[1].first - vj[0].second >= 12*60) {
-                    changes += 2;
-                } else {
-                    changes += 4;
-                }
-            } else {
-                changes += 2;
-            }
-        }
-        // if (vc[0].first < vj[0].first) {
-        //     prev = 'c';
-        // }
-        // while (!vc.empty() || !vj.empty()) {
-        //     if (vc.empty()) {
-        //         vj.erase(vj.begin());
-        //         if (prev == 'c') changes++;
-        //         prev = 'j';
-        //     } else if (vj.empty()) {
-        //         vc.erase(vc.begin());
-        //         if (prev == 'j') changes++;
-        //         prev = 'c';
-        //     } else {
-        //         if (vc[0].first <= vj[0].first) {
-        //             vc.erase(vc.begin());
-        //             if (prev == 'j') changes++;
-        //             prev = 'c';
+        // if (vc.size() + vj.size() == 1) {
+        //     changes += 2;
+        // } else if (vc.size() + vj.size () == 2) {
+        //     if (vc.size() == 2) {
+        //         if (vc[1].second - vc[0].first <= 12 * 60 || vc[1].first - vc[0].second >= 12*60) {
+        //             changes += 2;
         //         } else {
-        //             vj.erase(vj.begin());
-        //             if (prev == 'c') changes++;
-        //             prev = 'j';
+        //             changes += 4;
         //         }
+        //     } else if (vj.size() == 2) {
+        //         if (vj[1].second - vj[0].first <= 12 * 60 || vj[1].first - vj[0].second >= 12*60) {
+        //             changes += 2;
+        //         } else {
+        //             changes += 4;
+        //         }
+        //     } else {
+        //         changes += 2;
         //     }
         // }
+        if (vc.empty()) {
+            prev = 'j';
+        } else if (vj.empty()) {
+            prev = 'c';
+        } else if (vc[0].first < vj[0].first) {
+            prev = 'c';
+        }
+        while (!vc.empty() || !vj.empty()) {
+            if (vc.empty()) {
+                vj.erase(vj.begin());
+                if (prev == 'c') changes++;
+                prev = 'j';
+            } else if (vj.empty()) {
+                vc.erase(vc.begin());
+                if (prev == 'j') changes++;
+                prev = 'c';
+            } else {
+                if (vc[0].first < vj[0].first) {
+                    vc.erase(vc.begin());
+                    if (prev == 'j') changes++;
+                    prev = 'c';
+                } else {
+                    vj.erase(vj.begin());
+                    if (prev == 'c') changes++;
+                    prev = 'j';
+                }
+            }
+        }
         cout << "Case #" << test_case << ": " << changes << endl;
         
     }

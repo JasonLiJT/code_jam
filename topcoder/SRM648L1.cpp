@@ -88,11 +88,8 @@ class AB {
 
 		int count_AB_pairs(const std::vector<char>& vab) {
 			int sum = 0;
-			bool skip = true;
 			int count_A = 0;
-			for (std::vector<char>::const_iterator c = vab.begin(); c != vab.end(); ++c) {
-				if (skip && *c == 'B') continue;
-				else skip = false;
+			for (std::vector<char>::const_iterator c = find(vab.begin(), vab.end(),'A'); c != vab.end(); ++c) {
 				if (*c == 'A') {
 					count_A++;
 				}
@@ -106,7 +103,7 @@ class AB {
 
 int main() {
 	AB test;
-	int a = 24, b = 160;
+	int a = 100, b = 4000;
 	// cin >> a >> b;
 	// cout << "output:\n" << test.createString(a, b) << endl;
 	cout << "Searching for valid K from 0 to b\n";
