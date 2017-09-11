@@ -21,10 +21,8 @@ pair<int, vector<int> > getMaxAndNumbersComparedWithIt(const int* arr, int size)
         return make_pair(arr[0], vector<int>());
     }
     int sizeL = size / 2, sizeR = size - sizeL;
-    int* arrL = new int[sizeL];
-    int* arrR = new int[sizeR];
-    copy(arr, arr + sizeL, arrL);
-    copy(arr + sizeL, arr + size, arrR);
+    const int* arrL = arr;
+    const int* arrR = arr + sizeL;
     pair<int, vector<int> > left = getMaxAndNumbersComparedWithIt(arrL, sizeL),
                             right = getMaxAndNumbersComparedWithIt(arrR, sizeR);
     if (left.first >= right.first) {
