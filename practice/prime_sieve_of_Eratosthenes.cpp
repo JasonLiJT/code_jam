@@ -78,7 +78,7 @@ void prime_factorization() {
 
 	for (long long i = 2; i <= upper; ++i) {
 		if (factors[i] != 0) {
-			printf("%d^%d\n", i, factors[i]);
+			printf("%lld^%lld\n", i, factors[i]);
 		}
 	}
 
