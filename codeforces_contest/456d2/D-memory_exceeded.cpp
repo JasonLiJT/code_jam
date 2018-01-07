@@ -64,50 +64,13 @@ int main() {
 	sort(vll.begin(), vll.end());
 	long long sum_numerator = 0;
 	while (k--) {
-		sum_numerator += vll[vll.size() - 1];
+		sum_numerator += vll.back();
 		vll.pop_back();
 	}
 
 	cout.precision(10);
 	cout << fixed;
 	cout << 1.0 * sum_numerator / (n - r + 1) / (m - r + 1) << endl;
-
-
-	// for (long long i = 1; i <= n; ++i) {
-	// 	for (long long j = 1; j <= m; ++j) {
-	// 		clog << weight(i, j) << " ";
-	// 	}
-	// 	clog << endl;
-	// }
-
-	// long long repetitionN, repetitionM;
-	// if (r > n - r + 1) {
-	// 	repetitionN = 2 * r - n;
-	// } else {
-	// 	repetitionN = n + 2 - 2 * r;
-	// }
-
-	// if (r > m - r + 1) {
-	// 	repetitionM = 2 * r - m;
-	// } else {
-	// 	repetitionM = m + 2 - 2 * r;
-	// }
-
-	// deque< pair<long long, long long> > axisN, axisM;
-	// for (long long i = 1; i <= n; ++i) {
-	// 	axisN.push_back(make_pair(weight(i, 1), repetitionM));
-	// }
-	// for (long long j = 1; j <= m; ++j) {
-	// 	axisM.push_back(make_pair(weight(1, j), repetitionN));
-	// }
-
-	// sort(axisN.rbegin(), axisN.rend());
-	// sort(axisM.rbegin(), axisM.rend());
-	
-	// long long prob = 0;
-	// while (k--) {
-	// 	prob += 0;
-	// }
 
 	return 0;
 }
