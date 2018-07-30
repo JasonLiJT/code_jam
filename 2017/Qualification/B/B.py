@@ -15,8 +15,8 @@ for i in range(1, T + 1):
         d = tidiness(N)
         if d == -1:
             break
-        last_non_0 = min(d + 1, L - 1)
-        while N[last_non_0] == '0' and last_non_0 < L - 1:
-            last_non_0 += 1
-        N = str(int(N[:last_non_0 + 1]) - 1) + N[last_non_0 + 1:]
+        firstNon0 = min(d, L - 1)
+        while N[firstNon0] == '0' and firstNon0 < L - 1:
+            firstNon0 += 1
+        N = str(int(N[:firstNon0 + 1]) - 1) + N[firstNon0 + 1:]
     print("Case #{}: {}".format(i, N))
