@@ -1,15 +1,15 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private static final int[] colNeighbour = { 0, 0, 1, -1 };
-    private static final int[] rowNeighbour = { 1, -1, 0, 0 };
+    private static int[] colNeighbour = { 0, 0, 1, -1 };
+    private static int[] rowNeighbour = { 1, -1, 0, 0 };
     private final int n;
-    private boolean[][] gridIsOpen;
-    private boolean[] ufRootConnectedToTop;
-    private boolean[] ufRootConnectedToBottom;
+    private boolean[][] grid;
     private int numberOfOpenSites;
     private final WeightedQuickUnionUF uf;
-    private boolean percolated;
+    private final WeightedQuickUnionUF ufTopOnly;
+    private final int top;
+    private final int bottom;
 
     public Percolation(int n) {
         // create n-by-n grid, with all sites blocked
@@ -17,16 +17,17 @@ public class Percolation {
             throw new IllegalArgumentException("Negative grid size!");
         }
         this.n = n;
-        this.gridIsOpen = new boolean[n][n];
-        this.uf = new WeightedQuickUnionUF(n * n);
-        this.ufRootConnectedToTop = new boolean[n * n];
-        this.ufRootConnectedToBottom = new boolean[n * n];
+        this.grid = new boolean[n][n];
         this.numberOfOpenSites = 0;
+        this.uf = new WeightedQuickUnionUF(n * n + 2); // Plus the top (n*n) and bottom (n*n+1)
+        this.ufTopOnly = new WeightedQuickUnionUF(n * n + 1);
+        this.top = n * n;
+        this.bottom = n * n + 1;
         for (int i = 0; i < n; i++) {
-            ufRootConnectedToTop[uf.find(i)] = true;
-            ufRootConnectedToBottom[uf.find(n * n - 1 - i)] = true;
+            uf.union(i, top);
+            ufTopOnly.union(i, top);
+            uf.union(n * n - 1 - i, bottom);
         }
-        this.percolated = false;
     }
 
     private void checkRange(int row, int col) {
@@ -48,23 +49,15 @@ public class Percolation {
         if (isOpen(row, col)) {
             return;
         }
-        gridIsOpen[row - 1][col - 1] = true;
+        grid[row - 1][col - 1] = true;
         numberOfOpenSites++;
         for (int i = 0; i < 4; i++) {
             int x = row + rowNeighbour[i];
             int y = col + colNeighbour[i];
             if (isInRange(x, y)) {
                 if (isOpen(x, y)) {
-                    boolean unionConnectedToTop = ufRootConnectedToTop[uf.find(coordinateToUF(row, col))]
-                            || ufRootConnectedToTop[uf.find(coordinateToUF(x, y))];
-                    boolean unionConnectedToBottom = ufRootConnectedToBottom[uf.find(coordinateToUF(row, col))]
-                            || ufRootConnectedToBottom[uf.find(coordinateToUF(x, y))];
                     uf.union(coordinateToUF(row, col), coordinateToUF(x, y));
-                    boolean isTop = ufRootConnectedToTop[uf.find(coordinateToUF(row, col))] |= unionConnectedToTop;
-                    boolean isBottom = ufRootConnectedToBottom[uf.find(coordinateToUF(row, col))] |= unionConnectedToBottom;
-                    if (isTop && isBottom) {
-                        percolated = true;
-                    }
+                    ufTopOnly.union(coordinateToUF(row, col), coordinateToUF(x, y));
                 }
             }
         }
@@ -73,12 +66,12 @@ public class Percolation {
     public boolean isOpen(int row, int col) {
         // is site (row, col) open?
         checkRange(row, col);
-        return gridIsOpen[row - 1][col - 1];
+        return grid[row - 1][col - 1];
     }
 
     public boolean isFull(int row, int col) {
         // is site (row, col) full?
-        return isOpen(row, col) && ufRootConnectedToTop[uf.find(coordinateToUF(row, col))];
+        return isOpen(row, col) && ufTopOnly.connected(top, coordinateToUF(row, col));
     }
 
     public int numberOfOpenSites() {
@@ -89,9 +82,9 @@ public class Percolation {
     public boolean percolates() {
         // does the system percolate?
         if (n == 1) {
-            return gridIsOpen[0][0];
+            return grid[0][0];
         }
-        return percolated;
+        return uf.connected(top, bottom);
     }
 
     public static void main(String[] args) {
@@ -99,11 +92,9 @@ public class Percolation {
         Percolation percolation = new Percolation(3);
         for (int i = 1; i <= 3; ++i) {
             percolation.open(i, 3);
-            System.out.println(percolation.percolates());
         }
         percolation.open(3, 1);
         System.out.println(percolation.isFull(3, 1));
-        percolation.open(3, 2);
-        System.out.println(percolation.isFull(3, 1));
+
     }
 }
