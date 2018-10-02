@@ -113,6 +113,44 @@ class Bst {
         cout << endl;
     }
 
+    static vector<T> postOrderTreeWalk(BstNode<T> *x) {
+        vector<T> result;
+        postOrderTreeWalkWithoutRecursion(x, result);
+        return result;
+    }
+
+    static void postOrderTreeWalk(BstNode<T> *x, vector<T> &result) {
+        if (x != nullptr) {
+            postOrderTreeWalk(x->left, result);
+            postOrderTreeWalk(x->right, result);
+            result.push_back(x->data);
+        }
+    }
+
+    static void postOrderTreeWalkWithoutRecursion(BstNode<T> *x, vector<T> &result) {
+        stack<BstNode<T> *> nodes;
+        BstNode<T> *prev = nullptr;
+        while (!nodes.empty() || x != nullptr) {  // stack and tree not empty
+            if (x != nullptr) {  // First line, go left
+                nodes.push(x);
+                x = x->left;
+            } else {
+                auto peekNode = nodes.top();
+                if (peekNode->right != nullptr && peekNode->right != prev) {
+                    // Second line, go right
+                    x = peekNode->right;
+                } else {
+                    // Third line, visit node
+                    // returned from right child
+                    result.push_back(peekNode->data);
+                    prev = peekNode;
+                    nodes.pop();
+                    // Keep x as nullptr so that the stack never return to this subtree again
+                }
+            }
+        }
+    }
+
     static BstNode<T> *minimum(BstNode<T> *x) {
         while (x->left != nullptr) {
             x = x->left;
