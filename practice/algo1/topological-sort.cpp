@@ -21,11 +21,7 @@ vector<int> topologicalSortBFS(const map<int, vector<int>>& adj) {
             incomingEdgeCount[vertex] = 0;
         }
         for (int to : outgoingEdges) {
-            if (!incomingEdgeCount.count(to)) {
-                incomingEdgeCount[to] = 1;
-            } else {
-                incomingEdgeCount[to]++;
-            }
+            incomingEdgeCount[to]++;
         }
     }
 
