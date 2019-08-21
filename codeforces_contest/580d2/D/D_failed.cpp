@@ -21,11 +21,11 @@ int main() {
     for (long long& x : a) {
         cin >> x;
     }
-    // log2(1e5) = 16.6
-    vector<unordered_set<int>> adjList(17);
+    // log2(1e18) = 59.79
+    vector<unordered_set<int>> adjList(60);
     for (long long x : a) {
         vector<int> bitsSet;
-        for (int bits = 0; bits < 17; ++bits) {
+        for (int bits = 0; bits < 60; ++bits) {
             long long mask = 1LL;
             mask <<= bits;
             if (mask & x) {
@@ -43,12 +43,15 @@ int main() {
 
     int shortestCycle = INT_MAX;
     /********************
-     * Failed - shortest cycle length cannot be found by BFS or DFS:
+     * Failed - two mistakes.
+     * Mistake 1: shortest cycle length cannot be found by a single BFS or DFS:
      * https://stackoverflow.com/questions/20847463/finding-length-of-shortest-cycle-in-undirected-graph
      * Pair-wise brute force: https://codeforces.com/blog/entry/69158
-    *********************/
+     * Mistake 2: wrong problem abstraction. Each bit cannot be abstracted as a node.
+     * Counter-example: 0b111 along will make three interconnected nodes.
+     ********************/
     unordered_map<int, int> visitedAtDepth;
-    for (int i = 0; i < 17; ++i) {
+    for (int i = 0; i < 60; ++i) {
         if (visitedAtDepth.count(i)) continue;
         int depth = 0;
         queue<pair<int, int>> q;  // node, depthIncrement
